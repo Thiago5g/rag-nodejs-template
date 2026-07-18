@@ -12,7 +12,7 @@
     "query": "tsx src/cli/query.ts",
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "eslint src --ext .ts",
+    "lint": "eslint src",
     "typecheck": "tsc --noEmit",
     "db:migrate": "tsx src/db/migrate.ts"
   },
