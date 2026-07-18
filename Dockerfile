@@ -7,16 +7,16 @@ COPY src ./src
 RUN npm run build
 
 FROM node:20-alpine AS runner
-RUN addgroup --system --gid 1001 mcp && \
-    adduser --system --uid 1001 mcpuser
+RUN addgroup --system --gid 1001 rag && \
+    adduser --system --uid 1001 raguser
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
 COPY --from=builder /app/dist ./dist
-USER mcpuser
+COPY migrations ./migrations
+USER raguser
 
-# Default to stdio transport
-ENV MCP_TRANSPORT=stdio
-ENV MCP_LOG_LEVEL=info
+ENV PORT=3000
+EXPOSE 3000
 
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/server.js"]
